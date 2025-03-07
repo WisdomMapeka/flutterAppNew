@@ -1,21 +1,21 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
+import "auth/login_page.dart";
 
-void main() {
-  runApp(const MainApp());
+void main(){
+  runApp(const MainContainerApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+
+
+class MainContainerApp extends StatelessWidget {
+  const MainContainerApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
 
+      debugShowCheckedModeBanner: false,
+      home: LoginUIPage()
     );
   }
 }
