@@ -19,3 +19,22 @@ class MainContainerApp extends StatelessWidget {
     );
   }
 }
+
+
+// make this below code the main code in this main file, as it allows role base selection of boards
+
+// import 'package:flutter/material.dart';
+// import 'role_based_navigation.dart';
+
+// void main() {
+//   runApp(MyApp());
+// }
+
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: RoleBasedNavigation(role: 'clerk'), // Change role to 'farmer' for Farmer Dashboard
+//     );
+//   }
+// }

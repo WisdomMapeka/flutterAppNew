@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../admin/admin_dash.dart';
+import '../../clerks/admin_dash.dart';
 
 class SigninButton extends StatelessWidget {
   const SigninButton({super.key});
