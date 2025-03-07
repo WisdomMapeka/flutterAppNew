@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'clerk_dashboard.dart';
-import 'farmer_dashboard.dart';
+import '../clerks/admin_dash.dart';
+import '../farmers/farmers_dashboard.dart';
 
 class RoleBasedNavigation extends StatelessWidget {
   final String role;
