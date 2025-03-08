@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import FarmType, FarmerData, ConfigOption, Profile
+from .models import FarmType, FarmerData, CropType, Profile
 
 class FarmTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,9 +11,9 @@ class FarmerDataSerializer(serializers.ModelSerializer):
         model = FarmerData
         fields = '__all__'
 
-class ConfigOptionSerializer(serializers.ModelSerializer):
+class CropTypeOptionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ConfigOption
+        model = CropType
         fields = '__all__'
 
 class ProfileSerializer(serializers.ModelSerializer):

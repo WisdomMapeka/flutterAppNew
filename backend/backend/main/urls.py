@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import FarmTypeViewSet, FarmerDataViewSet, ConfigOptionViewSet, ProfileViewSet
+from .views import FarmTypeViewSet, FarmerDataViewSet, CropTypeOptionViewSet, ProfileViewSet
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from .auth.views.login_view import LoginView
@@ -9,7 +9,7 @@ from .auth.views.signup_view import SignupView
 router = DefaultRouter()
 router.register(r'farm-types', FarmTypeViewSet)
 router.register(r'farmer-data', FarmerDataViewSet)
-router.register(r'config-options', ConfigOptionViewSet)
+router.register(r'croptype-options', CropTypeOptionViewSet)
 router.register(r'profiles', ProfileViewSet)
 
 schema_view = get_schema_view(

@@ -4,4 +4,4 @@ from .models import *
 admin.site.register(FarmerData)
 admin.site.register(FarmType)
 admin.site.register(Profile)
-admin.site.register(ConfigOption)
+admin.site.register(CropType)

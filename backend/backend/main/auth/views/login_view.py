@@ -13,6 +13,10 @@ class LoginView(generics.GenericAPIView):
         if user is not None:
             # Generate JWT token
             token = AccessToken.for_user(user)
-            return Response({'token': str(token)}, status=status.HTTP_200_OK)
+            return Response({'token': str(token),
+                               'username': user.username,
+                               'email': user.email,
+                               'role': user.profile.role
+                             }, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'User Not Found'}, status=status.HTTP_401_UNAUTHORIZED)

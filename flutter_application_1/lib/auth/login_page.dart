@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../api/endpoints.dart';
+import '../navigation/role_based_navigation.dart';
 
 // Replace with your actual login endpoint
 // const String loginEndpoint = login_endpoint;
@@ -45,14 +46,17 @@ class _LoginPageState extends State<LoginPage> {
     
     if (result['success']) {
       // Navigate based on role
+      print(result);
       final role = result['role'];
+      print(role);
+      RoleBasedNavigation(role: role);
       if (role == 'admin') {
         // Navigate to admin page
-        // Navigator.pushNamed(context, '/admin');
+        Navigator.pushNamed(context, '/admin');
         print("admin");
       } else {
         // Navigate to clerk page
-        // Navigator.pushNamed(context, '/clerk');
+        Navigator.pushNamed(context, '/clerk');
         print("cleck");
       }
       setState(() {
