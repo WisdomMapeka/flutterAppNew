@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class FarmerDashboard extends StatelessWidget {
+class AdminDashboard extends StatelessWidget {
   // Hardcoded data for demonstration
   final List<Map<String, String>> farmerData = [
     {

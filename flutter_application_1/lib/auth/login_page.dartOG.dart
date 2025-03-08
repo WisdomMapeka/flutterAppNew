@@ -1,13 +1,17 @@
 import "package:flutter/material.dart";
 import 'usernamePasswordInput.dart';
 import 'signInbuton.dart';
+import '../api/backend_call.dart';
 
 
-class signUpUIPage extends StatelessWidget {
+class LoginUIPage extends StatelessWidget {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  LoginUIPage({super.key});
 
-  signUpUIPage({super.key});
+  // ============================================================================
+  
+  // ============================================================================
 
   @override
   Widget build(BuildContext context) {
@@ -38,25 +42,28 @@ class signUpUIPage extends StatelessWidget {
               // login form password
               SizedBox(height: 30,),
               UsernamePasswordInputForm(controller: passwordController, hinttext: "Password", obscureText: true,),
-
-              SizedBox(height: 30,),
-              UsernamePasswordInputForm(controller: passwordController, hinttext: "Password", obscureText: true,),
-             
-
-             SizedBox(height: 30,),
-              UsernamePasswordInputForm(controller: passwordController, hinttext: "Password", obscureText: true,),
-             
              
               
 
               // button [with login text]
               SizedBox(height: 30,),
-              // SigninButton(),
 
-
+              ElevatedButton(onPressed: (){
+                   submitLoginData(passwordController.text, usernameController.text);
+                },
+                child: SigninButton( requestResponseRole: "cleck"),
+               )
             ],
           )
         )
       ));
   }
+}
+
+submitLoginData(userName, password) {
+  print(userName);
+  print(password);
+
+  var respnse_login =  login(userName, password);
+  print(respnse_login);
 }

@@ -1,6 +1,5 @@
 import "package:flutter/material.dart";
 import "auth/login_page.dart";
-import 'navigation/role_based_navigation.dart';
 
 void main(){
   runApp(const MainContainerApp());
@@ -17,7 +16,7 @@ class MainContainerApp extends StatelessWidget {
 
       debugShowCheckedModeBanner: false,
       // home: RoleBasedNavigation(role: 'clerk')
-      home: LoginUIPage()
+      home: LoginPage()
     );
   }
 }

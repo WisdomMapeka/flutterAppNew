@@ -1,2 +1,4 @@
-var signup = "http://localhost:7000/api/signup/";
-var submit_data = "http://localhost:8000/api/submit-data/";
+var signup_endpoint = "http://localhost:8000/api/signup/";
+var submit_data_endpoint = "http://localhost:8000/api/farmer-data/";
+var login_endpoint = "http://localhost:8000/api/login_user/";
+var admin_add_farmtypes = "http://localhost:8000/api/farm-types/";
