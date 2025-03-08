@@ -3,11 +3,11 @@ import '../components/auth/usernamePasswordInput.dart';
 import '../components/auth/signInbuton.dart';
 
 
-class LoginUIPage extends StatelessWidget {
+class signUpUIPage extends StatelessWidget {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  LoginUIPage({super.key});
+  signUpUIPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,25 +38,25 @@ class LoginUIPage extends StatelessWidget {
               // login form password
               SizedBox(height: 30,),
               UsernamePasswordInputForm(controller: passwordController, hinttext: "Password", obscureText: true,),
+
+              SizedBox(height: 30,),
+              UsernamePasswordInputForm(controller: passwordController, hinttext: "Password", obscureText: true,),
+             
+
+             SizedBox(height: 30,),
+              UsernamePasswordInputForm(controller: passwordController, hinttext: "Password", obscureText: true,),
+             
              
               
 
               // button [with login text]
               SizedBox(height: 30,),
+              // SigninButton(),
 
-              ElevatedButton(onPressed: (){
-                   submitLoginData(passwordController.text, usernameController.text);
-                },
-                child: SigninButton( requestResponseRole: "cleck"),
-               )
+
             ],
           )
         )
       ));
   }
-}
-
-submitLoginData(userName, password) {
-  print(userName);
-  print(password);
 }

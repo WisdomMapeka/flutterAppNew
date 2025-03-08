@@ -1,5 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'endpoints.dart';
 
 Future<void> login(String username, String password) async {
     final response = await http.post(
@@ -61,6 +62,28 @@ Future<void> signup(String username, String password, String email, String role)
     );
 
     if (response.statusCode == 201) {
+        print('User registered successfully');
+    } else {
+        throw Exception('Failed to register user');
+    }
+}
+
+
+Future<void> farmer_submit_data(String farmer_name, String nation_id, String farm_type, String crop, String location ) async {
+    final response = await http.post(
+        Uri.parse(submit_data),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+                          "farmer_name": "string",
+                          "nation_id": "string",
+                          "farm_type": "string",
+                          "crop": "string",
+                          "location": "string"
+                        }),
+    );
+    
+    print(response.statusCode);
+    if (response.statusCode == 200) {
         print('User registered successfully');
     } else {
         throw Exception('Failed to register user');

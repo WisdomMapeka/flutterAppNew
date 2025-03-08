@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../api/endpoints.dart';
+import '../api/backend_call.dart';
 
 class ClerkDashboard extends StatefulWidget {
   @override
@@ -103,6 +105,8 @@ class _ClerkDashboardState extends State<ClerkDashboard> {
 
     // TODO: Call API to submit data or save locally
     print('Farmer Data: $farmerData');
+    farmer_submit_data(_farmerNameController.text,_nationIdController.text, _farmTypeController.text,
+                       _cropController.text,_locationController.text);
 
     // Show a success message
     ScaffoldMessenger.of(context).showSnackBar(
