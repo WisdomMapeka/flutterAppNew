@@ -77,16 +77,17 @@ Future<void> signup(String username, String password, String email, String role)
 }
 
 
-Future<void> farmer_submit_data(String farmer_name, String nation_id, String farm_type, String crop, String location ) async {
+Future<void> farmer_submit_data(String farmer_name, String nation_id, int farm_type, int crop_type, String crop, String location ) async {
     final response = await http.post(
         Uri.parse(submit_data_endpoint),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-                          "farmer_name": "string",
-                          "nation_id": "string",
-                          "farm_type": "string",
-                          "crop": "string",
-                          "location": "string"
+                          "farmer_name": farmer_name,
+                          "nation_id": nation_id,
+                          "farm_type": farm_type,
+                          "crop_type":crop_type,
+                          "crop": crop,
+                          "location": location
                         }),
     );
     

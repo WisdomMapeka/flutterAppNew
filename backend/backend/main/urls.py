@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import FarmTypeViewSet, FarmerDataViewSet, CropTypeOptionViewSet, ProfileViewSet
+from .views import FarmTypeViewSet, FarmerDataViewSet, CropTypeOptionViewSet, ProfileViewSet, CombinedCropFarmTypeSaveView
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from .auth.views.login_view import LoginView
@@ -28,6 +28,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
      path('api/signup/', SignupView.as_view(), name='signup'),
     path('api/login_user/', LoginView.as_view(), name='login'),
+    path('api/combined_save/', CombinedCropFarmTypeSaveView.as_view(), name='combined_save'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

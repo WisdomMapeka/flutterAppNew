@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import '../api/endpoints.dart';
 
 class AdminDashboard extends StatefulWidget {
   @override
@@ -11,11 +12,8 @@ class _AdminDashboard extends State<AdminDashboard> {
   bool _showInputForms = false;
   final TextEditingController _input1Controller = TextEditingController();
   final TextEditingController _input2Controller = TextEditingController();
-  List<String> _fetchedData = [];
+  List<dynamic> _fetchedData = [];
 
-  // Replace with your actual endpoint
-  final String submitEndpoint = 'http://yourapi.com/submit';
-  final String fetchEndpoint = 'http://yourapi.com/fetch';
 
   void _toggleInputForms() {
     setState(() {
@@ -23,17 +21,42 @@ class _AdminDashboard extends State<AdminDashboard> {
     });
   }
 
+
+  
+
+  Future<void> _deleteItem(int id, String deleteUrl) async {
+    final response = await http.delete(Uri.parse('$deleteUrl/$id/'));
+    print(response.statusCode);
+
+    if (response.statusCode == 204) {
+    // Successfully deleted
+    setState(() {
+      // Remove the item from the list by checking the id
+      _fetchedData.removeWhere((item) => item['id'] == id);
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Item deleted successfully!')),
+    );
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Failed to delete item!')),
+    );
+  }
+  }
+
+
+
   Future<void> _submitData() async {
     final response = await http.post(
-      Uri.parse(submitEndpoint),
+      Uri.parse(save_farmtype_croptype),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        'input1': _input1Controller.text,
-        'input2': _input2Controller.text,
+        'farm_data':{"farm_type": _input1Controller.text} ,
+        'crop_type':{"crop_type": _input2Controller.text} ,
       }),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Data submitted successfully!')),
       );
@@ -46,20 +69,29 @@ class _AdminDashboard extends State<AdminDashboard> {
     }
   }
 
-  Future<void> _fetchData() async {
-    final response = await http.get(Uri.parse(fetchEndpoint));
+ 
+
+  Future<void> _fetchData(String endpoint) async {
+    final response = await http.get(Uri.parse(endpoint));
 
     if (response.statusCode == 200) {
-      final List<dynamic> data = jsonDecode(response.body);
-      setState(() {
-        _fetchedData = data.map((item) => item.toString()).toList();
-      });
+      try {
+        final List<dynamic> data = jsonDecode(response.body);
+        setState(() {
+          _fetchedData = data;
+        });
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to decode data!')),
+        );
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to fetch data!')),
       );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -90,16 +122,38 @@ class _AdminDashboard extends State<AdminDashboard> {
             ],
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: _fetchData,
-              child: Text('Display Saved Crop And Farm Types'),
+              onPressed: () => _fetchData(crop_types),
+              child: Text('Crop Types'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () => _fetchData(admin_add_farmtypes),
+              child: Text('Farm Types'),
             ),
             SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
                 itemCount: _fetchedData.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(_fetchedData[index]),
+
+                  final item = _fetchedData[index];
+                  final int id = int.tryParse(item['id'].toString()) ?? 0; 
+                  final String type = item.containsKey('crop_type') ? item['crop_type'] : item['farm_type'];
+                  final String deleteLink = item.containsKey('crop_type') ? crop_types : admin_add_farmtypes;
+       
+
+                  return Card(
+                    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                    child: ListTile(
+                      title: Text('$type (ID: $id)'),
+                      trailing: ElevatedButton(
+                          onPressed: () => _deleteItem(id, deleteLink), // Call delete function with the id
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red, // Use backgroundColor instead of primary
+                          ),
+                          child: Text('Delete', style: TextStyle(color: Colors.white)),
+                        )
+                    ),
                   );
                 },
               ),
