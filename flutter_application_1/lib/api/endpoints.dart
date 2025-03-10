@@ -5,7 +5,7 @@
 // var save_farmtype_croptype = "http://localhost:8000/api/combined_save/";
 // var crop_types = "http://localhost:8000/api/croptype-options";
 
-var live = "https://wisem.pythonanywhere.com/";
+var live = "https://wisem.pythonanywhere.com";
 
 var signup_endpoint = "$live/api/signup/";
 var submit_data_endpoint = "$live/api/farmer-data/";
