@@ -12,7 +12,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-
+import 'endpoints.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -46,9 +46,9 @@ Future<void> syncData() async {
   print("Syncing data...");
 
   // Define the endpoints
-  final farmerDataUrl = Uri.parse('http://localhost:8000/api/farmer-data/');
-  final farmTypesUrl = Uri.parse('http://localhost:8000/api/farm-types/');
-  final cropTypesUrl = Uri.parse('http://localhost:8000/api/croptype-options/');
+  final farmerDataUrl = Uri.parse('$live/api/farmer-data/');
+  final farmTypesUrl = Uri.parse('$live/api/farm-types/');
+  final cropTypesUrl = Uri.parse('$live/api/croptype-options/');
 
   try {
     // Fetch farmer data
