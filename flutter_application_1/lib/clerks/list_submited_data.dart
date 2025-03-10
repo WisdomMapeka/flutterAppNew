@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../models/local_models.dart';
 
 class FarmerSubmittedData extends StatefulWidget {
   @override
@@ -9,52 +11,66 @@ class FarmerSubmittedData extends StatefulWidget {
 
 class _FarmerSubmittedDataState extends State<FarmerSubmittedData> {
   // List to store fetched farmer data
-  List<Map<String, dynamic>> _farmerData = [];
+  List<FarmerData> _farmerData = [];
   bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    // Fetch the data from the API when the screen loads
+    // Fetch the data from local storage (SharedPreferences) when the screen loads
     _fetchFarmerData();
   }
 
-  // Function to fetch farmer data from the API
+  // Function to fetch farmer data from SharedPreferences
   Future<void> _fetchFarmerData() async {
-    try {
-      final response = await http.get(Uri.parse('http://localhost:8000/api/farmer-data/'));
-      
-      if (response.statusCode == 200) {
-        // If the request was successful, parse the JSON data
-        final List<dynamic> data = jsonDecode(response.body);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-        setState(() {
-          _farmerData = data.map((item) => {
-            'farmer_name': item['farmer_name'],
-            'nation_id': item['nation_id'],
-            'farm_type': item['farm_type'].toString(), // Ensure farm_type is a string
-            'crop': item['crop'],
-            'location': item['location'],
-            'crop_type': item['crop_type'].toString(), // Include crop_type
-          }).toList();
-          _isLoading = false; // Data loaded, stop loading indicator
-        });
-      } else {
-        // If the response is not successful, show an error message
+    // Get the saved JSON string from SharedPreferences
+    String? data = prefs.getString('farmer_data'); // This might return null
+
+    if (data != null && data.isNotEmpty) {
+      try {
+        // Convert the JSON string into a list of objects
+        List<dynamic> farmerDataJson = json.decode(data);
+
+        // Validate that the farmerDataJson is a list
+        if (farmerDataJson is List) {
+          List<FarmerData> farmerDataList = [];
+          for (var item in farmerDataJson) {
+            try {
+              if (item is Map<String, dynamic>) {
+                // Add the decoded FarmerData object to the list
+                farmerDataList.add(FarmerData.fromJson(item));
+              } else {
+                print('Invalid item in farmerDataJson: $item');
+              }
+            } catch (e) {
+              print('Failed to parse item: $item. Error: $e');
+            }
+          }
+
+          setState(() {
+            _farmerData = farmerDataList;
+            _isLoading = false; // Data loaded, stop loading indicator
+          });
+        } else {
+          throw Exception('Invalid data format: Expected a list of JSON objects');
+        }
+      } catch (e) {
         setState(() {
           _isLoading = false;
         });
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to load farmer data')),
+          SnackBar(content: Text('Error fetching data: $e')),
         );
       }
-    } catch (e) {
-      // Handle any errors during the HTTP request
+    } else {
+      // Handle the case when there is no data or data is empty
       setState(() {
         _isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching data: $e')),
+        SnackBar(content: Text('No farmer data found')),
       );
     }
   }
@@ -63,7 +79,7 @@ class _FarmerSubmittedDataState extends State<FarmerSubmittedData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Admin Dashboard'),
+        title: Text('Farmer Submitted Data'),
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator()) // Show loading indicator
@@ -74,15 +90,15 @@ class _FarmerSubmittedDataState extends State<FarmerSubmittedData> {
                 return Card(
                   margin: EdgeInsets.all(8.0),
                   child: ListTile(
-                    title: Text(data['farmer_name']!),
+                    title: Text(data.farmerName),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Nation ID: ${data['nation_id']}'),
-                        Text('Farm Type: ${data['farm_type']}'),
-                        Text('Crop: ${data['crop']}'),
-                        Text('Location: ${data['location']}'),
-                        Text('Crop Type: ${data['crop_type']}'), // Display crop_type
+                        Text('Nation ID: ${data.nationId}'),
+                        Text('Farm Type: ${data.farmType}'),
+                        Text('Crop: ${data.crop}'),
+                        Text('Location: ${data.location}'),
+                        Text('Crop Type: ${data.cropType}'), // Display crop_type
                       ],
                     ),
                   ),
