@@ -2,8 +2,6 @@ import './farmer_submit_data_form.dart';
 import '../clerks/list_submited_data.dart';
 import 'package:flutter/material.dart';
 
-
-
 class ClerkDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -36,6 +34,7 @@ class ClerkDashboard extends StatelessWidget {
               },
               child: Text('Submit New Farmer Data'),
             ),
+            
           ],
         ),
       ),

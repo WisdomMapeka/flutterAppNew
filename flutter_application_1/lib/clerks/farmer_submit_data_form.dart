@@ -211,6 +211,14 @@ class _ClerkDashboardState extends State<FarmerDataSubmition> {
                 },
                 child: Text('Submit'),
               ),
+              SizedBox(height: 20),
+              // Button to navigate back to the home page
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/'); // Navigate back to the home page using the named route
+                },
+                child: Text('Back to Home'),
+              ),
             ],
           ),
         ),

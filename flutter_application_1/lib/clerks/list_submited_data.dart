@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 import '../models/local_models.dart';
+import '../api/connectivity_check.dart';
 
 class FarmerSubmittedData extends StatefulWidget {
   @override
@@ -81,30 +81,52 @@ class _FarmerSubmittedDataState extends State<FarmerSubmittedData> {
       appBar: AppBar(
         title: Text('Farmer Submitted Data'),
       ),
-      body: _isLoading
-          ? Center(child: CircularProgressIndicator()) // Show loading indicator
-          : ListView.builder(
-              itemCount: _farmerData.length,
-              itemBuilder: (context, index) {
-                final data = _farmerData[index];
-                return Card(
-                  margin: EdgeInsets.all(8.0),
-                  child: ListTile(
-                    title: Text(data.farmerName),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Nation ID: ${data.nationId}'),
-                        Text('Farm Type: ${data.farmType}'),
-                        Text('Crop: ${data.crop}'),
-                        Text('Location: ${data.location}'),
-                        Text('Crop Type: ${data.cropType}'), // Display crop_type
-                      ],
-                    ),
+      body: Column(
+        children: [
+          _isLoading
+              ? Center(child: CircularProgressIndicator()) // Show loading indicator
+              : Expanded(
+                  child: ListView.builder(
+                    itemCount: _farmerData.length,
+                    itemBuilder: (context, index) {
+                      final data = _farmerData[index];
+                      return Card(
+                        margin: EdgeInsets.all(8.0),
+                        child: ListTile(
+                          title: Text(data.farmerName),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Nation ID: ${data.nationId}'),
+                              Text('Farm Type: ${data.farmType}'),
+                              Text('Crop: ${data.crop}'),
+                              Text('Location: ${data.location}'),
+                              Text('Crop Type: ${data.cropType}'), // Display crop_type
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
+                ),
+          SizedBox(height: 20),
+          // Button to navigate back to the home page
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/'); // Navigate back to the home page using the named route
+            },
+            child: Text('Back to Home'),
+          ),
+          SizedBox(height: 20),
+          // Button to sync the data
+          ElevatedButton(
+            onPressed: () {
+              syncData(); // Call the syncData function when pressed, passing the _farmerData
+            },
+            child: Text('Sync Data'),
+          ),
+        ],
+      ),
     );
   }
 }

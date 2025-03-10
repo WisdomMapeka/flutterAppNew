@@ -42,9 +42,9 @@ class _MainContainerAppState extends State<MainContainerApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // home: LoginPage(),
+      home: LoginPage(),
       // home: AdminDashboard(),
-      home: ClerkDashboard(),
+      // home: ClerkDashboard(),
       routes: {
         '/admin': (context) => AdminDashboard(), // Admin page
         '/clerk': (context) => ClerkDashboard(), // Clerk page
